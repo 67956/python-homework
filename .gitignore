@@ -19,3 +19,6 @@ check_outputs_tmp.py
 final_check.py
 final_check.txt
 outputs_dump.txt
+update_hosts.ps1
+verify_ip.py
+hosts_updated.flag
