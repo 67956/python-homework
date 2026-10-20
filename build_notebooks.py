@@ -44,13 +44,13 @@ def write_nb(obj, path):
 # ======================================================================
 # HW01
 # ======================================================================
-IDENT = '''import os, uuid, hashlib, platform, getpass
+IDENT = '''import os, sys, uuid, hashlib, platform, getpass
 
 # ===== 1. 填写学号 =====
 STUDENT_ID = 20244080329  # 修改为自己的学号
 
 # ===== 2. 打印 conda 环境 =====
-CONDA_ENV = os.environ.get("CONDA_DEFAULT_ENV", "base")
+CONDA_ENV = os.environ.get("CONDA_DEFAULT_ENV") or os.path.basename(sys.prefix)
 print(f"[Conda 环境] {CONDA_ENV}")
 
 # ===== 3. 机器指纹（绑定当前电脑）=====
@@ -290,13 +290,13 @@ write_nb(nb(hw01), os.path.join(REPO, "20244080329_吴卓斯_hw01.ipynb"))
 # ======================================================================
 # EXP01
 # ======================================================================
-EXP_IDENT = '''import os, uuid, hashlib, platform, getpass
+EXP_IDENT = '''import os, sys, uuid, hashlib, platform, getpass
 
 # ===== 1. 填写学号 =====
 STUDENT_ID = 20244080329  # 修改为自己的学号
 
 # ===== 2. 打印 conda 环境 =====
-CONDA_ENV = os.environ.get("CONDA_DEFAULT_ENV", "base")
+CONDA_ENV = os.environ.get("CONDA_DEFAULT_ENV") or os.path.basename(sys.prefix)
 print(f"[Conda 环境] {CONDA_ENV}")
 
 # ===== 3. 机器指纹（绑定当前电脑）=====
