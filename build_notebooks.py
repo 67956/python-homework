@@ -16,8 +16,8 @@ def md(text):
 
 
 def code(text):
-    return {"cell_type": "code", "metadata": {}, "execution_count": None, "outputs": [],
-            "source": src(text)}
+    return {"cell_type": "code", "metadata": {}, "execution_count": None,
+            "outputs": [], "source": src(text)}
 
 
 def nb(cells):
@@ -72,21 +72,21 @@ hw01.append(md("""# 作业1：Data Types, Functions and Conditionals
 - 学号：20244080329
 - 课程：大数据平台与编程实践B
 
-> 说明：本 Notebook 按题目顺序依次运行各个代码框。
+> 这份 Notebook 按照题目顺序，把每个代码框从头到尾依次运行就可以。
 """))
 
-hw01.append(md("## 身份与环境记录（第一个代码框）"))
+hw01.append(md("## 先做个身份和环境记录（第一个代码框）"))
 hw01.append(code(IDENT))
 
 # ---------------- 热身 ----------------
-hw01.append(md("""## 一、热身：定义简单函数
+hw01.append(md("""## 一、热身：先写几个简单函数
 
-1. `say_hi()`：不接受参数，被调用时打印 `Hello, world!`；
-2. `goatPad(s)`：接受一个字符串，打印该字符串，前后各加一个 `goat`；
-3. `print_n(s, n)`：接受字符串 `s` 和整数 `n`，把字符串打印 `n` 次，每次单独一行。
+1. `say_hi()`：不需要参数，调用它就打印 `Hello, world!`；
+2. `goatPad(s)`：给它一个字符串，它会在字符串前后各加一个 `goat` 再打印出来；
+3. `print_n(s, n)`：给它一个字符串 `s` 和一个整数 `n`，它就把这个字符串打印 `n` 次，每次一行。
 """))
 
-hw01.append(md("**1. `say_hi` 函数**"))
+hw01.append(md("**1. 先写 `say_hi`**"))
 hw01.append(code('''def say_hi():
     """不接受参数，打印 Hello, world!"""
     print("Hello, world!")
@@ -95,7 +95,7 @@ hw01.append(code('''def say_hi():
 say_hi()
 '''))
 
-hw01.append(md("**2. `goatPad` 函数**"))
+hw01.append(md("**2. 再写 `goatPad`**"))
 hw01.append(code('''def goatPad(s):
     """在字符串 s 的前后各拼接一个 goat 后打印。"""
     print("goat" + s + "goat")
@@ -105,7 +105,7 @@ goatPad("hello")
 goatPad(" MOUNTAIN ")
 '''))
 
-hw01.append(md("**3. `print_n` 函数**"))
+hw01.append(md("**3. 最后写 `print_n`**"))
 hw01.append(code('''def print_n(s, n):
     """把字符串 s 打印 n 次，每次单独一行。"""
     for _ in range(n):
@@ -118,11 +118,11 @@ print_n("Hello, Hive!", 3)
 # ---------------- 欧几里得 ----------------
 hw01.append(md("""## 二、欧几里得算法
 
-欧几里得算法（辗转相除法）用于求两个整数 $m,n$ 的最大公约数（GCD），
-核心递推关系为：$\\gcd(m,n)=\\gcd(n,\\,m\\bmod n)$，直到余数为 0。
+欧几里得算法又叫辗转相除法，用来求两个整数 $m,n$ 的最大公约数（GCD）。
+它的核心递推关系是：$\\gcd(m,n)=\\gcd(n,\\,m\\bmod n)$，一直算到余数为 0 就停。
 """))
 
-hw01.append(md("**1. 实现 `gcd` 函数**"))
+hw01.append(md("**1. 先把 `gcd` 函数写出来**"))
 hw01.append(code('''def gcd(m, n):
     """使用辗转相除法返回两个整数的最大公约数。"""
     while n != 0:
@@ -130,30 +130,30 @@ hw01.append(code('''def gcd(m, n):
     return m
 '''))
 
-hw01.append(md("**2. 评估三组数字的 GCD**"))
+hw01.append(md("**2. 用三组数字试试看**"))
 hw01.append(code('''pairs = [(2018, 2019), (1200, 300), (5040, 60)]
 for m, n in pairs:
     print(f"gcd({m}, {n}) = {gcd(m, n)}")
 '''))
 
-hw01.append(md("""**3. 负数参数的行为与讨论**
+hw01.append(md("""**3. 传负数进去会怎样？来聊一聊**
 
-先直接用上面的函数测试负数输入，观察现象：
+我们先用上面这个函数，直接拿几个负数来测一测，看看会发生什么：
 """))
 hw01.append(code('''print("gcd(-2018, 2019) =", gcd(-2018, 2019))
 print("gcd(2018, -2019) =", gcd(2018, -2019))
 print("gcd(-1200, -300) =", gcd(-1200, -300))
 '''))
 
-hw01.append(md("""**现象分析：**
+hw01.append(md("""**来看看现象：**
 
-- 当两个参数**同为负数**时（如 `gcd(-1200, -300)`），辗转相除过程中 `m` 始终保持为负，
-  最后返回的是 **`-300`**，而数学上最大公约数约定为正整数，因此这个结果不规范。
-- 当参数一正一负时，由于 Python 的取模运算符 `%` 的余数符号与除数（分母）一致，
-  有时会“碰巧”得到正数结果，但这依赖于具体语言对取模的定义，行为并不直观、也不可移植。
-- 因此“直接相除”的版本对负数输入的行为是**不确定的**，这种行为没有意义——GCD 应当总是非负整数。
+- 如果两个参数**都是负数**（比如 `gcd(-1200, -300)`），在辗转相除的过程中 `m` 会一直是负数，
+  最后返回的就是 **`-300`**。但数学上最大公约数约定是正整数，所以这个结果其实不太规范。
+- 如果一个是正数、一个是负数，因为 Python 里取模符号 `%` 的余数符号跟除数（分母）保持一致，
+  有时候会“碰巧”算出正数，但这得看具体语言怎么定义取模，既不直观，也没法保证换个语言还一样。
+- 所以这个“直接相除”的版本，遇到负数时的行为是**说不准的**，这种结果没有意义——GCD 本来就应该总是非负的。
 
-**改进方法：** 在进入循环前用 `abs()` 取绝对值，使函数对任意整数符号都能返回正确的正 GCD。
+**怎么改进呢？** 很简单，在进入循环之前先用 `abs()` 取绝对值，这样不管传进来的数是正还是负，都能正确返回一个正的 GCD。
 """))
 hw01.append(code('''def gcd(m, n):
     """健壮版：先取绝对值，再用辗转相除法求最大公约数。"""
@@ -170,16 +170,16 @@ for m, n in [(2018, 2019), (1200, 300), (5040, 60),
 '''))
 
 # ---------------- 欧拉数 ----------------
-hw01.append(md("""## 三、近似欧拉数 e
+hw01.append(md("""## 三、想办法近似欧拉数 e
 
-自然对数的底数
+自然对数的底数 e 可以写成下面这个级数：
 
 $$e=\\sum_{k=0}^{\\infty}\\frac{1}{k!}=1+\\frac{1}{1}+\\frac{1}{2!}+\\frac{1}{3!}+\\cdots$$
 
-其中约定 $0!=1$。
+这里我们约定 $0!=1$。
 """))
 
-hw01.append(md("**1. `euler_limit`：用极限 $(1+\\frac{1}{x})^x$ 近似 e**"))
+hw01.append(md("**1. `euler_limit`：用极限 $(1+\\frac{1}{x})^x$ 来近似 e**"))
 hw01.append(code('''def euler_limit(n):
     """取 x=n，返回 (1+1/n)^n 对 e 的近似值（浮点数）。"""
     return (1 + 1 / n) ** n
@@ -189,10 +189,10 @@ for n in [1, 10, 1000, 1_000_000]:
     print(f"n={n:>7d}  ->  {euler_limit(n):.10f}")
 '''))
 
-hw01.append(md("""**2. `euler_infinite_sum`：用前 n 项之和近似 e**
+hw01.append(md("""**2. `euler_infinite_sum`：用前 n 项的和来近似 e**
 
-注意函数参数是“1-索引”的：`euler_infinite_sum(1)` 只取公式中的第 1 项（$k=0$），返回 `1`；
-`euler_infinite_sum(0)` 不取任何项，返回 `0`。
+这里要注意，参数是“从 1 开始数”的：`euler_infinite_sum(1)` 只取公式里的第 1 项（也就是 $k=0$），返回 `1`；
+而 `euler_infinite_sum(0)` 一项都不取，返回 `0`。
 """))
 hw01.append(code('''def euler_infinite_sum(n):
     """返回公式(1)中前 n 项之和对 e 的近似值。"""
@@ -211,7 +211,7 @@ print("euler_infinite_sum(4) =", euler_infinite_sum(4))
 print("euler_infinite_sum(20) =", euler_infinite_sum(20))
 '''))
 
-hw01.append(md("**3. `euler_approx`：不断累加直到误差小于 $\\epsilon$**"))
+hw01.append(md("**3. `euler_approx`：一项项往里加，直到误差小于 $\\epsilon$ 为止**"))
 hw01.append(code('''import math
 
 
@@ -233,7 +233,7 @@ for eps in [1e-3, 1e-6, 1e-10]:
     print(f"epsilon={eps:g}: 近似={approx:.12f}, 真实={math.exp(1):.12f}, 误差={abs(math.exp(1)-approx):.2e}")
 '''))
 
-hw01.append(md("**4. `print_euler_sum_table`：打印 1~n 项的近似值表**"))
+hw01.append(md("**4. `print_euler_sum_table`：把 1 到 n 项的近似值逐行打印出来**"))
 hw01.append(code('''def print_euler_sum_table(n):
     """逐行打印 euler_infinite_sum(k)，k 从 1 到 n。"""
     for k in range(1, n + 1):
@@ -244,13 +244,13 @@ print_euler_sum_table(10)
 '''))
 
 # ---------------- 整数属性 ----------------
-hw01.append(md("""## 四、测试整数属性
+hw01.append(md("""## 四、判断整数的一些性质
 
-一个正整数 $n$ 是 2 的幂，当且仅当 $n=2^p$（$p\\ge 0$）。
-只允许使用除法和取模（`%`），不能使用 `math.sqrt`。
+一个正整数 $n$ 是 2 的幂，当且仅当它能写成 $n=2^p$（$p\\ge 0$）。
+这道题只允许用除法和取模（`%`），不能用 `math.sqrt`。
 """))
 
-hw01.append(md("**1. `is_power_of_2`：判断是否为 2 的幂**"))
+hw01.append(md("**1. `is_power_of_2`：先判断它是不是 2 的幂**"))
 hw01.append(code('''def is_power_of_2(n):
     """若 n 是 2 的幂则返回 True，否则返回 False。"""
     if n < 1:
@@ -266,7 +266,7 @@ for x in [1, 2, 3, 4, 8, 10, 16, 64, 100, 1024]:
     print(f"is_power_of_2({x:>4d}) = {is_power_of_2(x)}")
 '''))
 
-hw01.append(md("**2. `is_power(b, n)`：推广为判断 n 是否为 b 的幂**"))
+hw01.append(md("**2. `is_power(b, n)`：推广一下，判断 n 是不是 b 的幂**"))
 hw01.append(code('''def is_power(b, n):
     """若 n 是 b 的某次幂（n = b^p, p>=0）则返回 True。"""
     if n == 1:
@@ -317,10 +317,10 @@ exp.append(md("""# 实验报告01：Python 基础与数据处理入门
 - 姓名：吴卓斯
 - 学号：20244080329
 - 专业：数据科学与大数据技术
-- 独立 conda 虚拟环境：`pycourse`（Python 3.11 + Jupyter）
+- 用的是独立 conda 虚拟环境：`pycourse`（Python 3.11 + Jupyter）
 """))
 
-exp.append(md("## 1.1 身份与环境记录（第一个代码框）"))
+exp.append(md("## 1.1 先做个身份和环境记录（第一个代码框）"))
 exp.append(code(EXP_IDENT))
 
 # ---------------- 实验1 ----------------
@@ -328,7 +328,7 @@ exp.append(md("""## 二、实验内容与过程
 
 ### 实验1：基本运算、数据类型与字符串
 
-**任务1**：计算 `8 / 3`、`8 // 3`、`8 % 3` 和 `2 ** 7`，输出结果及其类型，并说明运算符含义。
+**任务1**：算一算 `8 / 3`、`8 // 3`、`8 % 3` 和 `2 ** 7`，把结果和它们的类型都打印出来，并说明这几个运算符是什么意思。
 """))
 exp.append(code('''exprs = [("8 / 3", 8 / 3), ("8 // 3", 8 // 3),
          ("8 % 3", 8 % 3), ("2 ** 7", 2 ** 7)]
@@ -342,13 +342,13 @@ for name, value in exprs:
 # **  幂运算（2 的 7 次方）。
 '''))
 
-exp.append(md("**任务2**：创建整数、浮点数、字符串、布尔值各一个，用 `type()` 检查类型。"))
+exp.append(md("**任务2**：分别造一个整数、浮点数、字符串和布尔值，用 `type()` 看看它们各是什么类型。"))
 exp.append(code('''i, f, s, b = 10, 3.14, "goat", True
 for var in (i, f, s, b):
     print(f"值={var!r:<8} 类型={type(var).__name__}")
 '''))
 
-exp.append(md("**任务3**：执行类型转换，解释结果；捕获 `int(\"goat\")` 的异常。"))
+exp.append(md("**任务3**：做几个类型转换，看看结果是什么；另外故意转换 `int(\"goat\")`，把它的异常捕获下来。"))
 exp.append(code('''print("int('123') =", int("123"), "   字符串数字 -> 整数")
 print("float('3.14') =", float("3.14"), "  字符串数字 -> 浮点数")
 print("int(3.9) =", int(3.9), "   浮点数 -> 整数（直接截断小数部分，不四舍五入）")
@@ -360,7 +360,7 @@ except ValueError as e:
     # 原因：'goat' 不含可解析的整数表示，无法转换为整数。
 '''))
 
-exp.append(md("**任务4**：对字符串 `\" Python Data Analysis \"` 做去空白、大小写转换、切片、拆分与 join。"))
+exp.append(md("**任务4**：对字符串 `\" Python Data Analysis \"` 做一系列处理，包括去空白、大小写转换、切片、拆分和 join。"))
 exp.append(code('''raw = " Python Data Analysis "
 s = raw.strip()
 print("去首尾空白:", repr(s))
@@ -373,7 +373,7 @@ print("split() 拆成单词:", words)
 print("'-'.join() 连接:", "-".join(words))
 '''))
 
-exp.append(md("**任务5**：比较字符串拼接与重复；验证字符串不可直接修改，并演示构造新字符串。"))
+exp.append(md("**任务5**：试试字符串的拼接和重复；再验证一下字符串不能直接改，并用它演示怎么构造一个新字符串。"))
 exp.append(code('''print("拼接 'a' + 'b' =", "a" + "b")
 print("重复 'ab' * 3  =", "ab" * 3)
 
@@ -390,7 +390,7 @@ print("构造的新字符串:", new_s)
 # ---------------- 实验2 ----------------
 exp.append(md("""### 实验2：函数、条件、循环与递归
 
-**任务1**：`score_level(score)` 按分数返回等级，超出 0~100 抛出 `ValueError`。
+**任务1**：写一个 `score_level(score)`，根据分数返回对应的等级；如果分数不在 0~100 之间，就抛出 `ValueError`。
 """))
 exp.append(code('''def score_level(score):
     if not (0 <= score <= 100):
@@ -413,7 +413,7 @@ except ValueError as e:
     print("score_level(105) 捕获：", e)
 '''))
 
-exp.append(md("**任务2**：分别用 for 和 while 计算 1~100 的整数和并比较。"))
+exp.append(md("**任务2**：分别用 for 和 while 算出 1~100 的整数和，再比一比两个结果是不是一样。"))
 exp.append(code('''sum_for = 0
 for i in range(1, 101):
     sum_for += i
@@ -429,7 +429,7 @@ print("while 求和:", sum_while)
 print("两者结果相同:", sum_for == sum_while)
 '''))
 
-exp.append(md("**任务3**：递归版与迭代版阶乘（约定 0!=1），比较 n=0、1、5、10。"))
+exp.append(md("**任务3**：写递归版和迭代版的阶乘（约定 0!=1），用 n=0、1、5、10 分别比一比。"))
 exp.append(code('''def factorial_iter(n):
     result = 1
     for k in range(2, n + 1):
@@ -448,7 +448,7 @@ for n in [0, 1, 5, 10]:
     print(f"{n:>2d}! 迭代={a:<8} 递归={b:<8} 一致={a == b}")
 '''))
 
-exp.append(md("**任务4**：`summary(values)` 以元组返回最小值、最大值、平均值，并解包接收。"))
+exp.append(md("**任务4**：写一个 `summary(values)`，用元组把最小值、最大值、平均值一起返回，再解包接收。"))
 exp.append(code('''def summary(values):
     return min(values), max(values), sum(values) / len(values)
 
@@ -459,7 +459,7 @@ print("最大值:", high)
 print("平均值:", round(average, 2))
 '''))
 
-exp.append(md("**任务5**：`sum_all(*args)` 返回所有参数之和，测试无参、单参、多参。"))
+exp.append(md("**任务5**：写一个 `sum_all(*args)`，把所有参数加起来返回，分别试试不传参、传一个、传多个的情况。"))
 exp.append(code('''def sum_all(*args):
     total = 0
     for x in args:
@@ -475,32 +475,32 @@ print("多参数 sum_all(1,2,3,4):", sum_all(1, 2, 3, 4))
 # ---------------- 实验3 ----------------
 exp.append(md("""### 实验3：列表、字典、元组与基础统计
 
-使用模拟成绩数据（不包含真实学生信息）。
+这里用的是模拟的成绩数据，不涉及任何真实学生的信息。
 """))
 exp.append(code('''names = ["Alice", "Bob", "Carol", "David", "Eva", "Frank"]
 scores = [85, 58, 92, 76, 60, 89]
 '''))
 
-exp.append(md("**任务1**：用 `zip()` 构建姓名到成绩的字典，用 `items()` 逐项输出。"))
+exp.append(md("**任务1**：用 `zip()` 把姓名和成绩拼成一个字典，再用 `items()` 把内容一条条打印出来。"))
 exp.append(code('''score_dict = dict(zip(names, scores))
 print("字典:", score_dict)
 for name, score in score_dict.items():
     print(f"{name:>6} : {score}")
 '''))
 
-exp.append(md("**任务2**：用 `enumerate()` 输出序号、姓名、成绩，序号从 1 开始。"))
+exp.append(md("**任务2**：用 `enumerate()` 把序号、姓名、成绩一起输出，序号从 1 开始。"))
 exp.append(code('''for index, (name, score) in enumerate(zip(names, scores), start=1):
     print(f"序号 {index}: {name:<6} 成绩 {score}")
 '''))
 
-exp.append(md("**任务3**：列表推导式提取及格学生姓名、生成成绩平方列表。"))
+exp.append(md("**任务3**：用列表推导式把及格学生的姓名挑出来，再生成一个成绩平方的列表。"))
 exp.append(code('''passed_names = [name for name, score in zip(names, scores) if score >= 60]
 score_squares = [score ** 2 for score in scores]
 print("及格学生姓名:", passed_names)
 print("成绩平方列表:", score_squares)
 '''))
 
-exp.append(md("**任务4**：统计人数、平均分、最高分、最低分、及格率并格式化输出。"))
+exp.append(md("**任务4**：把人数、平均分、最高分、最低分、及格率都统计出来，并格式化输出。"))
 exp.append(code('''count = len(scores)
 average = sum(scores) / count
 passed = sum(1 for score in scores if score >= 60)
@@ -511,7 +511,7 @@ print(f"最高分={max(scores)}  最低分={min(scores)}")
 print(f"及格率={pass_rate:.1%}")
 '''))
 
-exp.append(md("**任务5**：比较别名 `alias = scores` 与 `copied = scores.copy()`（使用单独的演示列表）。"))
+exp.append(md("**任务5**：比一比别名 `alias = scores` 和 `copied = scores.copy()` 的区别（这里用一个单独的演示列表）。"))
 exp.append(code('''demo = [1, 2, 3]
 alias = demo            # 别名，指向同一个列表对象
 copied = demo.copy()    # 浅拷贝，生成一个新列表
@@ -522,7 +522,7 @@ print("alias 与 demo 是同一对象:", alias is demo)
 print("copied 与 demo 是同一对象:", copied is demo)
 '''))
 
-exp.append(md("**任务6**：元组保存一条记录，验证不可重新赋值；观察不等长序列的 `zip()`。"))
+exp.append(md("**任务6**：用元组存一条记录，验证它不能被重新赋值；再看看长度不一样的序列做 `zip()` 会怎样。"))
 exp.append(code('''record = ("Alice", 85, "及格")
 print("元组记录:", record)
 try:
@@ -536,7 +536,7 @@ print("不等长 zip 结果（按较短序列截断）:", list(zip([1, 2, 3], ["
 # ---------------- 实验4 ----------------
 exp.append(md("""### 实验4：文件读写、异常处理与模块
 
-**任务1**：查看工作目录，构造相对路径，创建 `exp01_data` 数据目录。
+**任务1**：先看看当前工作目录，拼出一个相对路径，再把 `exp01_data` 这个数据文件夹建出来。
 """))
 exp.append(code('''print("当前工作目录:", os.getcwd())
 data_dir = os.path.join(os.getcwd(), "exp01_data")
@@ -544,7 +544,7 @@ os.makedirs(data_dir, exist_ok=True)
 print("数据目录:", data_dir)
 '''))
 
-exp.append(md("**任务2**：写入 UTF-8 文本 `students.txt`，再读取并跳过表头解析。"))
+exp.append(md("**任务2**：把一段 UTF-8 文本写进 `students.txt`，再读回来，跳过表头开始解析。"))
 exp.append(code('''content = """name,score
 Alice,85
 Bob,58
@@ -567,7 +567,7 @@ data_lines = raw_lines[1:]          # 跳过表头
 print("跳过表头后的记录数:", len(data_lines))
 '''))
 
-exp.append(md("**任务3**：`parse_student(line)` 校验字段数量、姓名、成绩范围，无效则抛 `ValueError`。"))
+exp.append(md("**任务3**：写一个 `parse_student(line)`，检查字段数量、姓名和成绩范围，遇到不合规的就抛出 `ValueError`。"))
 exp.append(code('''def parse_student(line):
     parts = line.split(",")
     if len(parts) != 2:
@@ -585,7 +585,7 @@ exp.append(code('''def parse_student(line):
     return {"name": name, "score": score}
 '''))
 
-exp.append(md("**任务4**：逐行处理，捕获无效记录并记录行号与原因，继续处理后续行。"))
+exp.append(md("**任务4**：一行行处理，把无效记录的行号和原因都记下来，然后接着处理后面的行。"))
 exp.append(code('''valid_records = []
 invalid_records = []
 for line_no, line in enumerate(data_lines, start=2):   # 行号从含表头的第2行开始
@@ -602,7 +602,7 @@ print("\\n有效记录：", valid_records)
 print(f"有效 {len(valid_records)} 条，无效 {len(invalid_records)} 条")
 '''))
 
-exp.append(md("**任务5**：将统计结果写入 `report.txt`，分别演示 `w`（覆盖）与 `a`（追加）模式。"))
+exp.append(md("**任务5**：把统计结果写进 `report.txt`，分别演示一下 `w`（覆盖）和 `a`（追加）这两种模式。"))
 exp.append(code('''report_path = os.path.join(data_dir, "report.txt")
 valid_count = len(valid_records)
 invalid_count = len(invalid_records)
@@ -623,7 +623,7 @@ with open(report_path, "a", encoding="utf-8") as f:
 print(open(report_path, encoding="utf-8").read())
 '''))
 
-exp.append(md("**任务6**：用 `pickle` 保存有效记录并读取，验证恢复数据与原数据相等。"))
+exp.append(md("**任务6**：用 `pickle` 把有效记录存起来再读回来，验证一下读回来的数据和原来的完全一样。"))
 exp.append(code('''import pickle
 
 pkl_path = os.path.join(data_dir, "students.pkl")
@@ -637,7 +637,7 @@ print("pickle 恢复数据:", restored)
 print("恢复数据与原数据相等:", restored == valid_records)
 '''))
 
-exp.append(md("**任务7**：把 `parse_student` 保存为同级模块 `student_utils.py`，再 import 调用。"))
+exp.append(md("**任务7**：把 `parse_student` 单独存成一个同级模块 `student_utils.py`，然后再 import 进来用。"))
 exp.append(code('''%%writefile student_utils.py
 """实验4 使用的工具模块：解析并校验学生成绩记录。"""
 
@@ -670,7 +670,7 @@ except ValueError as err:
     print("无效输入测试，捕获：", err)
 '''))
 
-exp.append(md("**任务8**：读取一个明确不存在的文件，捕获 `FileNotFoundError`。"))
+exp.append(md("**任务8**：故意去读一个肯定不存在的文件，把 `FileNotFoundError` 捕获下来。"))
 exp.append(code('''missing_path = os.path.join(data_dir, "not_exist.txt")
 try:
     with open(missing_path, encoding="utf-8") as f:
@@ -683,7 +683,7 @@ except FileNotFoundError as err:
 # ---------------- 实验5 ----------------
 exp.append(md("""### 实验5：类、继承与对象复制
 
-**任务1**：定义 `Student` 类，含 `is_passed()` 与 `__str__()`。
+**任务1**：定义一个 `Student` 类，里面要有 `is_passed()` 和 `__str__()` 两个方法。
 """))
 exp.append(code('''class Student:
     def __init__(self, name, score):
@@ -698,13 +698,13 @@ exp.append(code('''class Student:
         return f"{self.name}: {self.score} 分（{status}）"
 '''))
 
-exp.append(md("**任务2**：为每条有效记录创建 `Student` 对象，输出信息与及格状态。"))
+exp.append(md("**任务2**：给每条有效记录都创建一个 `Student` 对象，打印出它的信息和是否及格。"))
 exp.append(code('''students = [Student(r["name"], r["score"]) for r in valid_records]
 for stu in students:
     print(str(stu), "| is_passed() =", stu.is_passed())
 '''))
 
-exp.append(md("**任务3**：`GraduateStudent` 继承 `Student`，增加 `research_topic`，重写 `__str__`。"))
+exp.append(md("**任务3**：让 `GraduateStudent` 继承 `Student`，给它加一个 `research_topic`，并重写 `__str__`。"))
 exp.append(code('''class GraduateStudent(Student):
     def __init__(self, name, score, research_topic):
         super().__init__(name, score)          # 调用父类初始化
@@ -719,7 +719,7 @@ print(grad)
 print("继承自父类的 is_passed() =", grad.is_passed())
 '''))
 
-exp.append(md("**任务4**：对含嵌套列表的对象分别直接赋值、浅拷贝、深拷贝（每次从新建原始对象开始）。"))
+exp.append(md("**任务4**：对一个含有嵌套列表的对象，分别试试直接赋值、浅拷贝和深拷贝（每次都从一个全新的原始对象开始）。"))
 exp.append(code('''import copy
 
 
@@ -742,15 +742,15 @@ copy_demo()
 
 exp.append(md("""## 三、实验小结
 
-本次实验在独立的 conda 环境 `pycourse` 中完成，涵盖了：
+这次实验是在独立的 conda 环境 `pycourse` 里完成的，主要练了这些内容：
 
-1. 基本运算、数据类型、字符串常用方法与不可变性；
-2. 函数、条件分支、for/while 循环、递归以及可变参数；
-3. 列表、字典、元组、推导式与基础统计，以及别名与拷贝的区别；
-4. 文件读写、异常处理、CSV 风格记录解析、pickle 序列化与自定义模块；
-5. 类的定义、继承（`super()`）以及 `copy`/`deepcopy` 的差异。
+1. 基本运算、数据类型、字符串的常用方法和它的不可变性；
+2. 函数、条件分支、for/while 循环、递归，还有可变参数；
+3. 列表、字典、元组、推导式和基础统计，以及别名和拷贝的区别；
+4. 文件读写、异常处理、CSV 风格记录的解析、pickle 序列化和自定义模块；
+5. 类的定义、继承（`super()`），以及 `copy` 和 `deepcopy` 的差别。
 
-重启内核并运行全部代码后，各单元均能正常执行，无依赖旧变量或路径错误的问题。
+把内核重启、从头跑一遍之后，每个单元都能正常执行，没有依赖旧变量或者路径出错的问题。
 """))
 
 write_nb(nb(exp), os.path.join(REPO, "20244080329_吴卓斯_exp01.ipynb"))
